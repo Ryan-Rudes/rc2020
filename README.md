@@ -1,5 +1,7 @@
 # RC2020
 
+<img src="https://i.ibb.co/QMmJzZ5/Screen-Shot-2020-11-05-at-6-08-24-PM.png" alt="Screen-Shot-2020-11-05-at-6-08-24-PM" border="0">
+
 [ML Reproducibility Challenge 2020](https://paperswithcode.com/rc2020) is a community challenge for machine learning enthusiasts, students, and researchers in which participants select a paper from one of the prestigious ML competitions of the year (NeurIPS, ICML, ICLR, ACL, EMNLP, CVPR or ECCV) and attempt to recreate its methods in order to validate the legitimacy of, and thus asssess the reproducibility of Machine Learning research.
 
 Here is a dump of my work-in-progress code for the challenge. I am working on [*Discovering Reinforcement Learning Algorithms*](https://arxiv.org/pdf/2007.08794v1.pdf) by [DeepMind](https://deepmind.com/research/publications/Discovering-Reinforcement-Learning-Algorithms).
