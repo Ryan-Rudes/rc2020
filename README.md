@@ -9,8 +9,8 @@ This code is not expected to be very well organized until towards the end of the
 ## Progress Log
 **Thurday, November 5, 2020**:
 * Implemented all Grid World environments, including Tabular Grid World and Random Grid World, and the five maps for each type of grid world.
-<img src="https://i.ibb.co/QMmJzZ5/Screen-Shot-2020-11-05-at-6-08-24-PM.png" alt="Screen-Shot-2020-11-05-at-6-08-24-PM" border="0">
+<img src="https://i.ibb.co/QMmJzZ5/Screen-Shot-2020-11-05-at-6-08-24-PM.png" alt="GridWorld" border="0">
 
 **Sunday, November 8, 2020**
 * Implemented all Delayed Chain MDP environments, which includes 4 standard maps and 1 unique mode.
-<img src="https://i.ibb.co/j3wxSKV/Screen-Shot-2020-11-08-at-6-34-24-PM.png" alt="Screen-Shot-2020-11-08-at-6-34-24-PM" border="0">
+<img src="https://i.ibb.co/j3wxSKV/Screen-Shot-2020-11-08-at-6-34-24-PM.png" alt="DelayedChainMDP" border="0">
