@@ -14,3 +14,7 @@ This code is not expected to be very well organized until towards the end of the
 **Sunday, November 8, 2020**
 * Implemented all Delayed Chain MDP environments, which includes 4 standard maps and 1 unique mode.
 <img src="https://i.ibb.co/j3wxSKV/Screen-Shot-2020-11-08-at-6-34-24-PM.png" alt="DelayedChainMDP" border="0">
+
+**Saturday, November 14, 2020**
+* Rewrote the Tabular Grid World environment, doubling the speed of simulation and improving the rendering graphs
+<img src="https://i.ibb.co/2YnGksh/Screen-Shot-2020-11-14-at-4-20-44-PM.png" alt="GridWorld" border="0">
