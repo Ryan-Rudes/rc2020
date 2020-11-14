@@ -26,4 +26,4 @@ Tasks left to complete:
 * Implement the agent update
 * Implement the Learned Policy Gradient algorithm
 * Train on each environment
-* Test on each Atari environment
+* Test the learned update rule on each Atari environment
