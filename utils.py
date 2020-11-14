@@ -7,8 +7,3 @@ def rand_prob(prob):
     """
 
     return np.random.random() < prob
-
-def pos_to_coords(position, width):
-    """Converts an integer positional representation into an (x, y) coordinate pair"""
-
-    return position % width, position // width
