@@ -51,7 +51,7 @@ class LongerHorizon(Map):
 		000000000
 		000010000
 		""".strip()
-		blockers = np.array([[int(tile) for tile in row.replace('\t', '')] for row in blockermap.split('\n')]).T
+		blockers = np.array([[int(tile) for tile in row.replace('\t', '')] for row in blockermap.split('\n')])[::-1].T
 		max_steps = 1000
 		objects = [*[BlueObject(1, 0.1, 0.01) for i in range(2)],
 				   *[RedObject(-1, 0.8, 1) for i in range(5)]]
@@ -74,8 +74,44 @@ class LongDense(Map):
 		00000100000
 		00000100000
 		""".strip()
-		blockers = np.array([[int(tile) for tile in row.replace('\t', '')] for row in blockermap.split('\n')]).T
+		blockers = np.array([[int(tile) for tile in row.replace('\t', '')] for row in blockermap.split('\n')])[::-1].T
 		max_steps = 2000
 		objects = [BlueObject(1, 0, 0.005) for i in range(4)]
 		
 		super(LongDense, self).__init__(blockers, size, objects, max_steps)
+		
+class Small(Map):
+	def __init__(self):
+		size = (5, 7)
+		blockermap = """
+		0000000
+		0010000
+		0000000
+		0000100
+		0000000
+		""".strip()
+		blockers = np.array([[int(tile) for tile in row.replace('\t', '')] for row in blockermap.split('\n')])[::-1].T
+		max_steps = 500
+		objects = [*[BlueObject(1, 0, 0.05) for i in range(2)],
+				   *[RedObject(-1, 0.5, 0.1) for i in range(2)]]
+		
+		super(Small, self).__init__(blockers, size, objects, max_steps)
+		
+class SmallSparse(Map):
+	def __init__(self):
+		size = (5, 7)
+		blockers = np.zeros(size)
+		max_steps = 50
+		objects = [BlueObject(1, 1, 1),
+				   *[RedObject(-1, 1, 1) for i in range(2)]]
+		
+		super(SmallSparse, self).__init__(blockers, size, objects, max_steps)
+		
+class VeryDense(Map):
+	def __init__(self):
+		size = (11, 11)
+		blockers = np.zeros(size)
+		max_steps = 2000
+		objects = [BlueObject(1, 0, 1)]
+		
+		super(VeryDense, self).__init__(blockers, size, objects, max_steps)
