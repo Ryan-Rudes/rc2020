@@ -18,3 +18,12 @@ This code is not expected to be very well organized until towards the end of the
 **Saturday, November 14, 2020**
 * Rewrote the Grid World environments, doubling the speed of simulation and improving the rendering graphics
 <img src="https://i.ibb.co/2YnGksh/Screen-Shot-2020-11-14-at-4-20-44-PM.png" alt="GridWorld" border="0">
+
+Tasks left to complete:
+* Fix a rendering bug in the Random Grid World environment that causes some squares to remain lit although the reward located on that square was already collected.
+* Write a custom TensorFlow model for the Learned Policy Gradient architecture
+* Write some classes for the various agent structures for each training environment
+* Implement the agent update
+* Implement the Learned Policy Gradient algorithm
+* Train on each environment
+* Test on each Atari environment
