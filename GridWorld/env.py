@@ -106,6 +106,10 @@ class GridWorld(gym.Env):
 		else:
 			raise Exception("is_blocked only accepts a Coord or a 2D tuple as input")
 		
+	
+	def get_state(self):
+		return sum([int(obj.hidden) * 2 ** (i + 1) for i, obj in enumerate(self.objects)]) // 2 + self.state
+		
 	def reset(self):
 		squares = self.get_unblocked_squares(n = self.m + 1)
 		
@@ -122,7 +126,7 @@ class GridWorld(gym.Env):
 		self.reward_history = []
 		self.terminal = False
 		
-		return squares[-1]
+		return get_state(squares[-1])
 		
 	def step(self, action):
 		self.timestep += 1
@@ -168,7 +172,7 @@ class GridWorld(gym.Env):
 		self.reward_history.append(reward)
 		self.terminal |= self.timestep >= self.max_steps
 		
-		return self.coord2int(self.state), reward, self.terminal, {}
+		return get_state(self.state), reward, self.terminal, {}
 		
 	def render(self, mode='human'):		
 		if self.viewer is None:
