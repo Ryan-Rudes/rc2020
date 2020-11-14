@@ -6,13 +6,14 @@ from coord import Coord
 from colors import *
 from maps import *
 
-class TabularGridWorld(gym.Env):
+class GridWorld(gym.Env):
 	metadata = {'render.modes': ['human', 'rgb_array']}
 	
-	def __init__(self, map, n_actions):
+	def __init__(self, map, n_actions, random):
 		assert n_actions in [9, 18], "The magnitude of the action space must be either 9 or 18"
 
 		self.n_actions = n_actions
+		self.random = random
 		
 		self.blockers = map.blockers
 		self.size = map.size
@@ -32,6 +33,11 @@ class TabularGridWorld(gym.Env):
 		self.square2blocker = {square:int(square in self.blocker_squares) for square in range(self.p)}
 		
 		self.viewer = None
+		self.screen_width = 500
+		self.screen_height = int(self.rows / self.cols * self.screen_width)
+		self.tile_separation = 0.05
+		self.tile_width = self.screen_width / ((1 + self.tile_separation) * self.cols + 2 + self.tile_separation)
+		self.tile_height = self.screen_height / ((1 + self.tile_separation) * self.rows + 2 + self.tile_separation)
 		
 	def coord2int(self, coord: Coord):
 		return coord.y * self.cols + coord.x
@@ -50,6 +56,12 @@ class TabularGridWorld(gym.Env):
 		unblocked = np.nonzero(1 - blocked)[0]
 		return np.random.choice(unblocked, replace = False, size = n)
 		
+	def get_empty_squares(self, n=1):
+		blocked = np.array(list(self.square2blocker.values()))
+		rewarded = np.array(list(self.square2reward.values()))
+		empty = np.where(blocked + rewarded == 0)[0]
+		return np.random.choice(empty, replace = False, size = n)
+		
 	def is_coord_bounded(self, coord: Coord):
 		return coord.x >= 0 and coord.x < self.cols and coord.y >= 0 and coord.y < self.rows
 	
@@ -63,6 +75,25 @@ class TabularGridWorld(gym.Env):
 		for i, square in enumerate(self.reward_squares):
 			if square == position:
 				reward, terminal = self.objects[i].collect()
+				
+				if self.random and reward:
+					if not self.viewer is None:
+						x, y = self.int2tuple(self.reward_squares[i])
+						
+						l = (1 + self.tile_separation) * self.tile_width * (x + 1)
+						r = (1 + self.tile_separation) * self.tile_width * (x + 2) - self.tile_separation * self.tile_width
+						b = (1 + self.tile_separation) * self.tile_height * (y + 1)
+						t = (1 + self.tile_separation) * self.tile_height * (y + 2) - self.tile_separation * self.tile_height
+					
+						empty_tile = rendering.FilledPolygon([(l, b), (l, t), (r, t), (r, b)])
+						empty_tile.set_color(*white)
+						self.viewer.add_geom(empty_tile)
+						
+					self.square2reward[self.reward_squares[i]] = 0
+					self.reward_squares[i] = self.get_empty_squares()
+					self.square2reward[self.reward_squares[i]] = 1
+						
+					
 				break
 				
 		return reward, terminal
@@ -139,28 +170,20 @@ class TabularGridWorld(gym.Env):
 		
 		return self.coord2int(self.state), reward, self.terminal, {}
 		
-	def render(self, mode='human'):
-		screen_width = 500
-		screen_height = int(self.rows / self.cols * screen_width)
-		
-		tile_separation = 0.05
-		
-		tile_width = screen_width / ((1 + tile_separation) * self.cols + 2 + tile_separation)
-		tile_height = screen_height / ((1 + tile_separation) * self.rows + 2 + tile_separation)
-		
+	def render(self, mode='human'):		
 		if self.viewer is None:
-			self.viewer = rendering.Viewer(screen_width, screen_height)
+			self.viewer = rendering.Viewer(self.screen_width, self.screen_height)
 			
-			background = rendering.FilledPolygon([(0, 0), (0, screen_height), (screen_width, screen_height), (screen_width, 0)])
+			background = rendering.FilledPolygon([(0, 0), (0, self.screen_height), (self.screen_width, self.screen_height), (self.screen_width, 0)])
 			background.set_color(*maroon)
 			self.viewer.add_geom(background)
 			
 			for y in range(self.rows):
 				for x in range(self.cols):
-					l = (1 + tile_separation) * tile_width * (x + 1)
-					r = (1 + tile_separation) * tile_width * (x + 2) - tile_separation * tile_width
-					b = (1 + tile_separation) * tile_height * (y + 1)
-					t = (1 + tile_separation) * tile_height * (y + 2) - tile_separation * tile_height
+					l = (1 + self.tile_separation) * self.tile_width * (x + 1)
+					r = (1 + self.tile_separation) * self.tile_width * (x + 2) - self.tile_separation * self.tile_width
+					b = (1 + self.tile_separation) * self.tile_height * (y + 1)
+					t = (1 + self.tile_separation) * self.tile_height * (y + 2) - self.tile_separation * self.tile_height
 					
 					tile = rendering.FilledPolygon([(l, b), (l, t), (r, t), (r, b)])
 					
@@ -171,23 +194,23 @@ class TabularGridWorld(gym.Env):
 						
 					self.viewer.add_geom(tile)
 				
-			agent_tile = rendering.FilledPolygon([(0, 0), (0, tile_height), (tile_width, tile_height), (tile_width, 0)])
+			agent_tile = rendering.FilledPolygon([(0, 0), (0, self.tile_height), (self.tile_width, self.tile_height), (self.tile_width, 0)])
 			agent_tile.set_color(*black)
 			self.agent_translation = rendering.Transform()
 			agent_tile.add_attr(self.agent_translation)
 			self.viewer.add_geom(agent_tile)
 			
-		agent_x = (1 + tile_separation) * tile_width * (self.state.x + 1)
-		agent_y = (1 + tile_separation) * tile_height * (self.state.y + 1)
+		agent_x = (1 + self.tile_separation) * self.tile_width * (self.state.x + 1)
+		agent_y = (1 + self.tile_separation) * self.tile_height * (self.state.y + 1)
 		self.agent_translation.set_translation(agent_x, agent_y)
 		
 		for pos, obj in zip(self.reward_squares, self.objects):
 			x, y = self.int2tuple(pos)
 				
-			l = (1 + tile_separation) * tile_width * (x + 1)
-			r = (1 + tile_separation) * tile_width * (x + 2) - tile_separation * tile_width
-			b = (1 + tile_separation) * tile_height * (y + 1)
-			t = (1 + tile_separation) * tile_height * (y + 2) - tile_separation * tile_height
+			l = (1 + self.tile_separation) * self.tile_width * (x + 1)
+			r = (1 + self.tile_separation) * self.tile_width * (x + 2) - self.tile_separation * self.tile_width
+			b = (1 + self.tile_separation) * self.tile_height * (y + 1)
+			t = (1 + self.tile_separation) * self.tile_height * (y + 2) - self.tile_separation * self.tile_height
 				
 			reward_tile = rendering.FilledPolygon([(l, b), (l, t), (r, t), (r, b)])
 			
@@ -206,10 +229,11 @@ class TabularGridWorld(gym.Env):
 			self.viewer = None
 			
 from tqdm import tqdm
-map = LongerHorizon()
-env = TabularGridWorld(map, 9)
 
-episodes = 10000
+map = LongerHorizon()
+env = GridWorld(map, 9, True)
+
+episodes = 100
 for episode in tqdm(range(episodes), "Episode"):
 	state = env.reset()
 	terminal = False
@@ -217,8 +241,3 @@ for episode in tqdm(range(episodes), "Episode"):
 		action = env.action_space.sample()
 		state, reward, terminal, info = env.step(action)
 		env.render()
-	
-env.close()
-				
-		
-		
