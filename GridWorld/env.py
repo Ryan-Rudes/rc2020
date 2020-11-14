@@ -108,7 +108,7 @@ class GridWorld(gym.Env):
 		
 	
 	def get_state(self):
-		return sum([int(obj.hidden) * 2 ** (i + 1) for i, obj in enumerate(self.objects)]) // 2 + self.state
+		return sum([int(obj.hidden) * 2 ** (i + 1) for i, obj in enumerate(self.objects)]) // 2 + self.coord2int(self.state)
 		
 	def reset(self):
 		squares = self.get_unblocked_squares(n = self.m + 1)
@@ -126,7 +126,7 @@ class GridWorld(gym.Env):
 		self.reward_history = []
 		self.terminal = False
 		
-		return get_state(squares[-1])
+		return self.get_state()
 		
 	def step(self, action):
 		self.timestep += 1
@@ -172,7 +172,7 @@ class GridWorld(gym.Env):
 		self.reward_history.append(reward)
 		self.terminal |= self.timestep >= self.max_steps
 		
-		return get_state(self.state), reward, self.terminal, {}
+		return self.get_state(), reward, self.terminal, {}
 		
 	def render(self, mode='human'):		
 		if self.viewer is None:
