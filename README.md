@@ -16,5 +16,5 @@ This code is not expected to be very well organized until towards the end of the
 <img src="https://i.ibb.co/j3wxSKV/Screen-Shot-2020-11-08-at-6-34-24-PM.png" alt="DelayedChainMDP" border="0">
 
 **Saturday, November 14, 2020**
-* Rewrote the Tabular Grid World environment, doubling the speed of simulation and improving the rendering graphics
+* Rewrote the Grid World environments, doubling the speed of simulation and improving the rendering graphics
 <img src="https://i.ibb.co/2YnGksh/Screen-Shot-2020-11-14-at-4-20-44-PM.png" alt="GridWorld" border="0">
