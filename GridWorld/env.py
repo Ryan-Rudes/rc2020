@@ -23,7 +23,6 @@ class GridWorld(gym.Env):
 		self.rows, self.cols = self.size
 		self.p = self.rows * self.cols
 		self.m = len(self.objects)
-		self.N = max([obj.i for obj in self.objects]) + 1
 		
 		self.n_states = self.p * 2 ** self.m
 		
@@ -93,6 +92,7 @@ class GridWorld(gym.Env):
 					self.square2reward[self.reward_squares[i]] = 0
 					self.reward_squares[i] = self.get_empty_squares()
 					self.square2reward[self.reward_squares[i]] = 1
+						
 					
 				break
 				
@@ -108,22 +108,7 @@ class GridWorld(gym.Env):
 		
 	
 	def get_state(self):
-		if self.random:
-			state_tensor = np.zeros((self.N, self.rows, self.cols))
-			
-			for y in range(self.rows):
-				for x in range(self.cols):
-					position = self.tuple2int(x, y)
-					
-					if self.square2reward[position]:
-						idx = self.reward_squares.tolist().index(position)
-						state_tensor[:, y, x] = np.eye(self.N)[self.objects[idx].i]
-					else:
-						state_tensor[:, y, x] = np.zeros(self.N)
-						
-			return state_tensor
-		else:
-			return sum([int(obj.hidden) * 2 ** (i + 1) for i, obj in enumerate(self.objects)]) // 2 + self.coord2int(self.state)
+		return sum([int(obj.hidden) * 2 ** (i + 1) for i, obj in enumerate(self.objects)]) // 2 + self.coord2int(self.state)
 		
 	def reset(self):
 		squares = self.get_unblocked_squares(n = self.m + 1)
@@ -218,6 +203,10 @@ class GridWorld(gym.Env):
 			self.agent_translation = rendering.Transform()
 			agent_tile.add_attr(self.agent_translation)
 			self.viewer.add_geom(agent_tile)
+			
+		agent_x = (1 + self.tile_separation) * self.tile_width * (self.state.x + 1)
+		agent_y = (1 + self.tile_separation) * self.tile_height * (self.state.y + 1)
+		self.agent_translation.set_translation(agent_x, agent_y)
 		
 		for pos, obj in zip(self.reward_squares, self.objects):
 			x, y = self.int2tuple(pos)
@@ -235,10 +224,6 @@ class GridWorld(gym.Env):
 				reward_tile.set_color(*obj.color)
 				
 			self.viewer.add_geom(reward_tile)
-			
-		agent_x = (1 + self.tile_separation) * self.tile_width * (self.state.x + 1)
-		agent_y = (1 + self.tile_separation) * self.tile_height * (self.state.y + 1)
-		self.agent_translation.set_translation(agent_x, agent_y)
 				
 		return self.viewer.render(return_rgb_array = mode == 'rgb_array')
 		
@@ -247,24 +232,16 @@ class GridWorld(gym.Env):
 			self.viewer.close()
 			self.viewer = None
 			
+# GridWorld Demo
 from tqdm import tqdm
-import cv2
-
-map = Small()
+map = LongerHorizon()
 env = GridWorld(map, 9, True)
 
-episodes = 10000
-for episode in range(episodes):
+episodes = 100
+for episode in tqdm(range(episodes), "Episode"):
 	state = env.reset()
 	terminal = False
 	while not terminal:
 		action = env.action_space.sample()
 		state, reward, terminal, info = env.step(action)
-		
-		for i, n in enumerate(np.uint8(state)):
-			cv2.imshow(str(i), cv2.resize(n * 255, tuple(v * 35 for v in env.size[::-1]), interpolation = cv2.INTER_AREA))
-			cv2.waitKey(1)
-			
 		env.render()
-	
-env.close()
