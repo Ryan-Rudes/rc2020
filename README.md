@@ -30,10 +30,10 @@ This code is not expected to be very well organized until towards the end of the
 - [ ] Write a custom TensorFlow model for the Learned Policy Gradient architecture
 - [x] Write some classes for the various agent structures for each training environment
 
-  * [x] Agent abstract class
-  * [x] TabularAgent for Tabular Grid World
-  * [x] FunctionalAgent for Random Grid World and Delayed Chain MDP + State Distraction
-  * [x] BinaryAgent for Delayed Chain MDP
+  * [x] `Agent` abstract class
+  * [x] `TabularAgent` for Tabular Grid World
+  * [x] `FunctionalAgent` for Random Grid World and Delayed Chain MDP + State Distraction
+  * [x] `BinaryAgent` for Delayed Chain MDP
   
 - [ ] Implement the agent update
 - [ ] Implement the Learned Policy Gradient algorithm
