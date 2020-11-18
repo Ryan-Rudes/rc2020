@@ -73,7 +73,7 @@ class FunctionalAgent(Agent):
     linear function approximation.
     """
 
-    def __init__(self, A, N, H, W):
+    def __init__(self, A, d):
         """
         In Random Grid World environments, the locations of objects are randomized within
         a lifetime, resulting in an exponentially larger state space. Function approximation
@@ -83,16 +83,10 @@ class FunctionalAgent(Agent):
 
         Args:
             A: The number of actions (either 9 or 18 in Grid World environments)
-            N: The number of object types
-            H: The height of the grid
-            W: The width of the grid
+            d: The dimensionality of the observation (N×H×W)
         """
         self.A = A
-        self.N = N
-        self.H = H
-        self.W = W
-        # The dimensionality of the observation
-        self.d = N * H * W
+        self.d = d # N×H×W
 
     def initialize(self, loc=0, scale=1):
         """
