@@ -25,7 +25,13 @@ This code is not expected to be very well organized until towards the end of the
 - [x] Write the gym Class for the custom MDP environments
 - [ ] Fix a rendering bug in the Random Grid World environment that causes some squares to remain lit although the reward located on that square was already collected.
 - [ ] Write a custom TensorFlow model for the Learned Policy Gradient architecture
-- [ ] Write some classes for the various agent structures for each training environment
+- [x] Write some classes for the various agent structures for each training environment
+
+  * [x] Agent abstract class
+  * [x] TabularAgent for Tabular Grid World
+  * [x] FunctionalAgent for Random Grid World and Delayed Chain MDP + State Distraction
+  * [x] BinaryAgent for Delayed Chain MDP
+  
 - [ ] Implement the agent update
 - [ ] Implement the Learned Policy Gradient algorithm
 - [ ] Train on each environment
