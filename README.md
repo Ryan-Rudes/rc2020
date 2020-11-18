@@ -19,6 +19,9 @@ This code is not expected to be very well organized until towards the end of the
 * Rewrote the Grid World environments, doubling the speed of simulation and improving the rendering graphics
 <img src="https://i.ibb.co/2YnGksh/Screen-Shot-2020-11-14-at-4-20-44-PM.png" alt="GridWorld" border="0">
 
+**Tuesday, November 17, 2020**
+* Wrote the `Agent` abstract class, and all subsequent agent concrete classes, including `TabularAgent` (for the Tabula Grid World environment), `FunctionalAgent` (for environments demanding function approximation, ie. Random Grid World and Delayed Chain MDP + State Distraction), and `BinaryAgent` (for the standard Delayed Chain MDP environments without state distraction).
+
 ## Task Log
 - [x] Read DeepMind's [*Discovering Reinforcement Learning Algorithms*](https://arxiv.org/pdf/2007.08794v1.pdf)
 - [x] Write the gym Class for the custom Grid World environments
