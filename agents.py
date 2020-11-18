@@ -146,7 +146,7 @@ print (agent.best_action(2))
 print (agent(2))
 
 # Demo for FunctionalAgent
-agent = FunctionalAgent(9, 4, 10, 10)
+agent = FunctionalAgent(9, 400)
 agent.initialize()
 print (agent(np.random.randint(0, 2, size = (400,))))
 
