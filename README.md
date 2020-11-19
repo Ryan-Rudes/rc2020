@@ -42,3 +42,6 @@ This code is not expected to be very well organized until towards the end of the
 - [ ] Implement the Learned Policy Gradient algorithm
 - [ ] Train on each environment
 - [ ] Test the learned update rule on each Atari environment
+
+  * [ ] Write a model class for the network architecture specified by the authors — C(32)-C(64)-C(64)-D(512)
+  * [ ] Test performance over 20 million frames on Montezuma Revenge, Ms. Pacman, Riverraid, Pitfall, Tutankham (the environments in which LPG outperformed/matched A2C)
