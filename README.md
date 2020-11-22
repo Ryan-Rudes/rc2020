@@ -25,6 +25,9 @@ This code is not expected to be very well organized until towards the end of the
 **Wednesday, November 18, 2020**
 * Wrote the `LPG` Model class and the Embedding layer it uses to encode the categorical prediction vector <img src="https://render.githubusercontent.com/render/math?math=y">
 
+**Sunday, November 22, 2020**
+* Began to attempt the first tests at a simple implementation. Work in progress, but starting to write the overall code.
+
 ## Task Log
 - [x] Read DeepMind's [*Discovering Reinforcement Learning Algorithms*](https://arxiv.org/pdf/2007.08794v1.pdf)
 - [x] Write the gym Class for the custom Grid World environments
@@ -38,8 +41,8 @@ This code is not expected to be very well organized until towards the end of the
   * [x] `FunctionalAgent` for Random Grid World and Delayed Chain MDP + State Distraction
   * [x] `BinaryAgent` for Delayed Chain MDP
   
-- [ ] Implement the agent update
-- [ ] Implement the Learned Policy Gradient algorithm
+- [x] Implement the agent update
+- [x] Implement the Learned Policy Gradient algorithm
 - [ ] Train on each environment
 - [ ] Test the learned update rule on each Atari environment
 
