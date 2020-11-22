@@ -4,7 +4,7 @@ from tensorflow.keras.models import Model
 class EmbeddingLayer(Layer):
   def __init__(self):
     super(EmbeddingLayer, self).__init__()
-    self.projection_layer(16, activation = 'relu')
+    self.projection_layer = Dense(16, activation = 'relu')
     self.output_layer = Dense(1, activation = 'relu')
 
   def call(self, inputs):
