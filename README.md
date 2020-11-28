@@ -28,6 +28,9 @@ This code is not expected to be very well organized until towards the end of the
 **Sunday, November 22, 2020**
 * Began to attempt the first tests at a simple implementation. Work in progress, but starting to write the overall code.
 
+**Saturday, November 28, 2020**
+* Began writing the final code implementation.
+
 ## Task Log
 - [x] Read DeepMind's [*Discovering Reinforcement Learning Algorithms*](https://arxiv.org/pdf/2007.08794v1.pdf)
 - [x] Write the gym Class for the custom Grid World environments
